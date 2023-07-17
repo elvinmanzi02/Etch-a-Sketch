@@ -1,29 +1,71 @@
-const gridContainer = document.querySelector(".gridContainer");
+// calling elements
 
-function sixteenGrids() {
-    let rows = [];
-    for (let i = 1 ; i <= 16 ; i++) {
-        let row = document.createElement("div");
-        row.className = "row";
-        row.style.setProperty("border", "1px solid black");
-        row.style.setProperty("width", "15px");
-        row.style.setProperty("height", "15px");
-        for(let j = 1 ; j <= 16 ; j++) {
-            let cell = document.createElement("div");
-            cell.className = "ceil";
-            cell.style.setProperty("border", "1px solid black");
-            cell.style.setProperty("width", "15px");
-            cell.style.setProperty("height", "15px");
-            row.appendChild(cell);
-        }
-        rows.push(row);
-        
+const clearBtn = document.querySelector(".clear");
+const eraseBtn = document.querySelector(".erase");
+const darkBtn = document.querySelector(".dark");
+const colorPicker = document.querySelector(".color-picker");
+const chooseColor = document.querySelector(".choose-color");
+const myInput = document.querySelector("#sizeSlider");
+const gridContainer = document.querySelector(".grid-container")
+
+size = 16;
+
+let hasClicked = false;
+
+// function to make grids
+
+function gridsFuc(size) {
+
+    gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
+    for(let i = 0 ; i < size*size ; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("myCell");
+        gridContainer.appendChild(cell);
     }
-    gridContainer.appendChild(rows[i]);
-  
 }
 
-sixteenGrids();
+
+// function that make random color
+
+function randomColor(event) {
+    const red = Math.floor(Math.random()*256);
+    const green = Math.floor(Math.random()*256);
+    const  blue = Math.floor(Math.random()*256);
+    const rgbcolor = `rgb(${red}, ${green}, ${blue})`;
+    event.target.style.backgroundColor = rgbcolor;
+}
 
 
+// function that clear 
 
+function clear() {
+    const cells = document.querySelectorAll(".myCell");
+    cells.forEach((cell) => {
+        cell.style.backgroundColor = "";
+    });
+}
+
+function mixedColor() {
+    const cells = document.querySelectorAll(".myCell");
+    cells.forEach((cell) => {
+        cell.addEventListener("click", randomColor);
+        cell.addEventListener("click", () => {
+            hasClicked = true;
+        });
+        cell.addEventListener("mouseover",(event) => {
+            if(hasClicked) {
+                randomColor(event);
+            }
+        })
+    })
+}
+
+gridsFuc(size);
+clearBtn.addEventListener("click", clear);
+colorPicker.addEventListener("click", () => {
+    mixedColor();
+});
+
+mixedColor();
