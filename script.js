@@ -8,16 +8,22 @@ const chooseColor = document.querySelector(".choose-color");
 const myInput = document.querySelector("#sizeSlider");
 const gridContainer = document.querySelector(".grid-container")
 
-size = 16;
+let size = 16;
 
+let hasClickedMixedColor = false;
+let hasClickedDark = false;
 let hasClicked = false;
 
 // function to make grids
 
 function gridsFuc(size) {
 
+    size = myInput.value;
+
     gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
+    gridContainer.innerHTML = "";
 
     for(let i = 0 ; i < size*size ; i++) {
         const cell = document.createElement("div");
@@ -44,6 +50,11 @@ function clear() {
     const cells = document.querySelectorAll(".myCell");
     cells.forEach((cell) => {
         cell.style.backgroundColor = "";
+        cell.removeEventListener("mouseover", erase);
+        cell.removeEventListener("click", randomColor);
+        cell.removeEventListener("click", () => {
+            hasClicked = true;
+        });
     });
 }
 
@@ -54,10 +65,10 @@ function mixedColor() {
     cells.forEach((cell) => {
         cell.addEventListener("click", randomColor);
         cell.addEventListener("click", () => {
-            hasClicked = true;
+            hasClickedMixedColor = true;
         });
         cell.addEventListener("mouseover",(event) => {
-            if(hasClicked) {
+            if(hasClickedMixedColor) {
                 randomColor(event);
             }
         });
@@ -72,10 +83,10 @@ function dark() {
             cell.style.backgroundColor = "black";
         });
         cell.addEventListener("click", () => {
-            hasClicked = true;
+            hasClickedDark = true;
         });
         cell.addEventListener("mouseover",() => {
-            if(hasClicked) {
+            if(hasClickedDark) {
                 cell.style.backgroundColor = "black";
             }
         });
@@ -99,16 +110,19 @@ function addErase() {
     addErase();
   });
 
-  addErase();
+  myInput.addEventListener("input", (event) => {
+    size = event.target.value;
+    document.getElementById("sizeValue").textContent = `${size} x ${size}`;
+    gridsFunc(size);
+  });
+  
+  // Set the default size on page load
+  myInput.value = size;
+  document.getElementById("sizeValue").textContent = `${size} x ${size}`;
+  
 
 gridsFuc(size);
+addErase(); // Add this line to call the addErase() function initially
 clearBtn.addEventListener("click", clear);
-colorPicker.addEventListener("click", () => {
-    mixedColor();
-});
-mixedColor();
-
-darkBtn.addEventListener("click", () => {
-    dark()
-});
-dark();
+colorPicker.addEventListener("click", mixedColor);
+darkBtn.addEventListener("click", dark);
