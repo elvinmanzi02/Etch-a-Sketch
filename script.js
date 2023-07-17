@@ -47,6 +47,8 @@ function clear() {
     });
 }
 
+// mixed color function
+
 function mixedColor() {
     const cells = document.querySelectorAll(".myCell");
     cells.forEach((cell) => {
@@ -58,14 +60,55 @@ function mixedColor() {
             if(hasClicked) {
                 randomColor(event);
             }
-        })
-    })
+        });
+    });
 }
+// dark function
+
+function dark() {
+    const cells = document.querySelectorAll(".myCell");
+    cells.forEach((cell) => {
+        cell.addEventListener("click", () => {
+            cell.style.backgroundColor = "black";
+        });
+        cell.addEventListener("click", () => {
+            hasClicked = true;
+        });
+        cell.addEventListener("mouseover",() => {
+            if(hasClicked) {
+                cell.style.backgroundColor = "black";
+            }
+        });
+    });
+}
+
+// function that erase
+function erase(event) {
+    event.target.style.backgroundColor = "";
+  }
+
+  // add erase function
+function addErase() {
+    const cells = document.querySelectorAll(".myCell");
+    cells.forEach((cell) => {
+      cell.addEventListener("mouseover", erase);
+    });
+  }
+
+  eraseBtn.addEventListener("click", () => {
+    addErase();
+  });
+
+  addErase();
 
 gridsFuc(size);
 clearBtn.addEventListener("click", clear);
 colorPicker.addEventListener("click", () => {
     mixedColor();
 });
-
 mixedColor();
+
+darkBtn.addEventListener("click", () => {
+    dark()
+});
+dark();
