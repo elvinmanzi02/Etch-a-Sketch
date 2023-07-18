@@ -1,4 +1,4 @@
-// calling elements
+// Selecting elements
 
 const clearBtn = document.querySelector(".clear");
 const eraseBtn = document.querySelector(".erase");
@@ -8,17 +8,17 @@ const chooseColor = document.querySelector(".choose-color");
 const myInput = document.querySelector("#sizeSlider");
 const gridContainer = document.querySelector(".grid-container")
 
+// declaration of variables
+
 let size = 16;
 
 let hasClickedMixedColor = false;
 let hasClickedDark = false;
 let hasClicked = false;
 
-// function to make grids
+// function 1, making grids
 
 function gridsFunc(size) {
-
-    size = myInput.value;
 
     gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
@@ -33,7 +33,7 @@ function gridsFunc(size) {
 }
 
 
-// function that make random color
+// function 2, makes random color
 
 function randomColor(event) {
     const red = Math.floor(Math.random()*256);
@@ -44,21 +44,23 @@ function randomColor(event) {
 }
 
 
-// function that clear 
+// function 3, clears grids
 
 function clear() {
     const cells = document.querySelectorAll(".myCell");
     cells.forEach((cell) => {
-        cell.style.backgroundColor = "";
-        cell.removeEventListener("mouseover", erase);
-        cell.removeEventListener("click", randomColor);
-        cell.removeEventListener("click", () => {
-            hasClicked = true;
-        });
+      cell.style.backgroundColor = "";
+      cell.removeEventListener("mouseover", erase);
+      cell.removeEventListener("click", randomColor);
+      cell.removeEventListener("click", () => {
+        hasClicked = true;
+      });
     });
-}
+    hasClickedMixedColor = false;
+    hasClickedDark = false;
+  }
 
-// mixed color function
+// function 4 , adds mixed color to grids
 
 function mixedColor() {
     const cells = document.querySelectorAll(".myCell");
@@ -74,7 +76,7 @@ function mixedColor() {
         });
     });
 }
-// dark function
+// function 5, adds black color to grids
 
 function dark() {
     const cells = document.querySelectorAll(".myCell");
@@ -93,18 +95,22 @@ function dark() {
     });
 }
 
-// function that erase
+// function 5, that erase
+
 function erase(event) {
     event.target.style.backgroundColor = "";
   }
 
-  // add erase function
+  // function 6, add erase function
+
 function addErase() {
     const cells = document.querySelectorAll(".myCell");
     cells.forEach((cell) => {
       cell.addEventListener("mouseover", erase);
     });
   }
+
+  // Finally phase, adding eventlistener to buttons
 
   eraseBtn.addEventListener("click", () => {
     addErase();
