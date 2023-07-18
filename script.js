@@ -16,7 +16,7 @@ let hasClicked = false;
 
 // function to make grids
 
-function gridsFuc(size) {
+function gridsFunc(size) {
 
     size = myInput.value;
 
@@ -115,13 +115,14 @@ function addErase() {
     document.getElementById("sizeValue").textContent = `${size} x ${size}`;
     gridsFunc(size);
   });
+
   
   // Set the default size on page load
   myInput.value = size;
   document.getElementById("sizeValue").textContent = `${size} x ${size}`;
   
 
-gridsFuc(size);
+gridsFunc(size);
 addErase(); // Add this line to call the addErase() function initially
 clearBtn.addEventListener("click", clear);
 colorPicker.addEventListener("click", mixedColor);
